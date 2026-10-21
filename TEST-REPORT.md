@@ -2,7 +2,7 @@
 
 驗證日期：2026-10-21（香港時間）。
 
-**目前未完成最終交付：公開新倉庫已建好並推送 main，但啟用 Pages 嘅 API 被 GitHub 整合權限拒絕，網站未部署；真實 iPhone 微信「儲存到相片」尚未實機驗收。** 下列模擬測試唔代表真實 iPhone／微信已驗收。
+**GitHub Pages 已上線並啟用 HTTPS；正式網址已回傳 200，HTML 與本地已測版本一致。真實 iPhone 微信「儲存到相片」尚未實機驗收，因此未宣稱最終 iPhone／微信硬性驗收完成。** 下列模擬測試唔代表真實 iPhone／微信已驗收。
 
 ## 已完成嘅必要修改
 
@@ -46,21 +46,31 @@
 
 測試程式只供開發者使用，依賴免費 Playwright；網站唔會載入佢。雲端 WebKit 使用官方下載，缺少嘅共享庫由 Debian 已簽名套件索引驗證後下載並解壓到 `/tmp`，冇改動系統安裝或降低 TLS／套件驗證。
 
-## GitHub Pages 狀態及最少外部操作
+## GitHub Pages 已發布
 
-- 已確認目前 GitHub 身份：`justinhe740-byte`。
-- 帳戶持有人已建立公開倉庫 `justinhe740-byte/HELLO-FUTURE`；已確認目前連接可讀取同推送。
-- 完整網站、`.nojekyll`、說明、測試同發布腳本已推送到 `main`。
-- 倉庫實際名稱係大寫 `HELLO-FUTURE`，因此 Pages 路徑亦使用相同大小寫。
-- 建立新倉庫權限唔再係前提；目前未完成嘅步驟係啟用 Pages：REST `POST /repos/justinhe740-byte/HELLO-FUTURE/pages` 返回 HTTP 403 `Resource not accessible by integration`。
-- 倉庫角色回報 `admin: true` 唔代表目前 GitHub 應用獲授所有管理 API；已觀察到程式碼推送成功，而 Pages 開通被拒絕。
-- `.default_branch` 已係 `main`，發布腳本唔再要求額外修改倉庫 metadata。
-- 腳本可以喺使用者手動啟用 Pages 之後繼續驗證。正式驗證保留 TLS 檢查並比對線上 HTML。
+- 倉庫：https://github.com/justinhe740-byte/HELLO-FUTURE
+- 正式 HTTPS 網站：https://justinhe740-byte.github.io/HELLO-FUTURE/
+- Pages API：`status: built`、`https_enforced: true`；來源 `main`、`/`。
+- Pages build API 回報 `built`，冇 build error。
+- 公開網站以保留 TLS 驗證嘅 curl 下載，HTTP 200；逐位元組比對與本地 index.html 一致。
+- 已驗證 index.html SHA256：`e2e69667ada97f995504c2417e2b4210123321313333cd0674055adeb72aab5c`。
+- 所有託管仍然只用 GitHub 免費公開倉庫 Pages 同 github.io 域名，冇持續付費依賴。
 
-最少操作：帳戶持有人開啟 https://github.com/justinhe740-byte/HELLO-FUTURE/settings/pages ，Source 選 **Deploy from a branch**，Branch 選 **main**，Folder 選 **/ (root)**，撳 **Save**。唔需要新增建立倉庫權限，亦唔需要喺聊天提供 token。
+持有人已手動完成 Pages 設定。之前建立倉庫／啟用 Pages 嘅整合權限不足，已不再阻止目前網站發布；唔需要再新增建立倉庫權限。
 
-- 已建立嘅倉庫：https://github.com/justinhe740-byte/HELLO-FUTURE
-- 預期網站（**尚未啟用／未驗證，唔係已上線交付連結**）：`https://justinhe740-byte.github.io/HELLO-FUTURE/`
+## 已發布 HTML 嘅交互驗證及限制
+
+本次增加三組 Chromium 模擬：iPhone Safari UA、iPhone MicroMessenger UA、桌面。
+每組都從正式網址以 curl（TLS 驗證開啟）下載 HTML、核對與本地版本一致，再載入離線瀏覽器。
+三顆星球、三組選擇、EN／粵語狀態、世界生成、紀念卡生成均通過；PNG 解碼係 1200 × 1800。
+手機模擬顯示原頁圖片同「長按圖片儲存到相片」，冇自動下載；桌面實際下載成功。
+三組均無 JavaScript 或 console error。
+
+**瀏覽器直接 HTTPS 導航未完成**：雲端 Chromium 回報 `ERR_CERT_AUTHORITY_INVALID`，係本執行環境代理 CA 嘅瀏覽器信任設定問題。
+將已安裝嘅平台代理 CA 加入瀏覽器信任庫嘅操作，被自動審核拒絕：原因係會持久擴大信任範圍，容許日後 HTTPS 攔截。
+冇執行呢個修改，亦冇停用 TLS 驗證。上述安全替代只驗證 TLS 下載結果及其瀏覽器交互，唔聲稱係瀏覽器直接 HTTPS 導航測試。
+
+未接駁真實 iPhone，唔會用模擬結果代替微信 iOS 原生相片儲存驗收。
 
 環境網絡草稿已加入 `api.github.com`、`justinhe740-byte.github.io`、`cdn.playwright.dev`、`playwright.download.prss.microsoft.com`，保留原有預設域名。之後重試已能連線 GitHub API 同下載 WebKit。草稿保存唔等於環境版本已發布，亦唔等於網站已發布；可喺環境設定審閱、保存並發布，以保留設定。
 

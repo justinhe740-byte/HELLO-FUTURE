@@ -4,10 +4,13 @@ HELLO, FUTURE
 
 點樣打開
 --------------------------------------------------
-直接雙擊 index.html，用較新版本嘅 Chrome、Edge、Safari 或 Firefox 打開。
-唔使安裝任何套件，唔使開伺服器，亦唔需要連線。
-正式交付畀 iPhone／微信用戶，請發 GitHub Pages 嘅 HTTPS 網址。
-唔好將 HTML 當微信附件發送；iPhone 檔案預覽器唔等於瀏覽器。
+正式網址：https://justinhe740-byte.github.io/HELLO-FUTURE/
+將上面條 HTTPS 網址發到微信聊天，iPhone 用戶直接點網址即可開啟。
+唔需要下載 HTML、解壓縮、安裝程式或轉去電腦。
+真實 iPhone 微信嘅長按儲存相片仍需實機確認；詳見 TEST-REPORT.md。
+
+電腦離線版本亦可以直接雙擊 index.html，用較新版本嘅瀏覽器打開。
+唔使安裝任何套件，唔使開伺服器。
 網址第一次開啟需要連線，載入後嘅四幕操作同紀念卡生成唔需要外部服務。
 冇安裝 Service Worker，所以唔保證斷網後重新整理網址仲可以載入。
 
@@ -118,27 +121,26 @@ GitHub Pages 免費發布
 index.html 喺根目錄，所有圖像／程式／樣式內嵌，冇 /assets 等根路徑引用。
 .nojekyll 標記略過 Jekyll 處理，冇 npm 或建置步驟。
 
-目前發布狀態：公開倉庫已建立，完整檔案已推送 main，GitHub Pages 尚未啟用。
+目前發布狀態：GitHub Pages 已發布，HTTPS 已開啟。
 倉庫：https://github.com/justinhe740-byte/HELLO-FUTURE
-現有 GitHub 連接可以讀取同推送，但開通 Pages 嘅 API 返回 HTTP 403。
-唔需要再授予建立倉庫權限。
+網站：https://justinhe740-byte.github.io/HELLO-FUTURE/
+Source：Deploy from a branch；Branch：main；Folder：/ (root)。
+網站地址嘅 HELLO-FUTURE 路徑大小寫請保持一致。
 
-帳戶持有人只需要喺瀏覽器開啟：
-https://github.com/justinhe740-byte/HELLO-FUTURE/settings/pages
-喺 Build and deployment：
-1. Source 選 Deploy from a branch。
-2. Branch 選 main；Folder 選 / (root)。
-3. 撳 Save；保持 Enforce HTTPS，唔需要填 Custom domain。
+已確認網站回傳 HTTPS 200，HTML 同本地測試版本完全一致。
+已校驗下載嘅線上 HTML，並用 Chromium 模擬 iPhone／微信同電腦，
+完成三顆星球、創作、切換語言同 1200 × 1800 PNG 生成／保存圖片顯示測試。
+真實 iPhone Safari／微信 iOS 原生儲存到相片未驗證。
 
-設定後通知助手繼續，或者維護者喺已授權嘅機器執行：
-bash publish-github-pages.sh --publish
-腳本會保留已推送嘅相同網站，繼續檢查 Pages 同 HTTPS。
+雲端瀏覽器直接導航 HTTPS 時遇到本環境代理 CA 信任問題。
+自動審核拒絕持久修改瀏覽器信任庫，因此冇改動該安全設定。
+驗證使用保留 TLS 檢查嘅 curl 取得線上 HTML，再離線載入瀏覽器測試。
+呢個測試唔等於真實 iPhone 嘅 HTTPS 導航或相簿驗收。
+
+維護者可以執行：bash publish-github-pages.sh --publish
+腳本會保留已推送嘅相同網站，檢查 Pages 同 HTTPS。
 如果網站內容已改變，腳本會停止，唔會覆蓋其他版本。
-正式驗證會保留 TLS 檢查並比對線上 HTML。
-
-預期網站（尚未部署／未驗證，唔係有效交付連結）：
-https://justinhe740-byte.github.io/HELLO-FUTURE/
-注意網址路徑大小寫同實際倉庫名稱一致。
+更新內容時應推送 main，由 GitHub Pages 自動重新發布。
 
 開發驗證說明
 --------------------------------------------------
@@ -146,7 +148,7 @@ https://justinhe740-byte.github.io/HELLO-FUTURE/
 開發測試需要免費 Playwright 同 Chromium／WebKit，網站本身冇呢啲依賴。
 一般測試機器可以用：node scripts/test-mobile.cjs
 受限雲環境可以用 WEBKIT_EXECUTABLE 指定已安裝嘅 WebKit 啟動程式。
-真實 HTTPS 公網、iPhone Safari、微信 iOS 同相片選單仍然要實機驗收。
+正式 HTTPS 網址已確認可訪問；iPhone Safari、微信 iOS 同相片選單仍然要實機驗收。
 
 如要修改
 --------------------------------------------------
