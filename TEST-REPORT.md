@@ -2,7 +2,7 @@
 
 驗證日期：2026-10-21（香港時間）。
 
-**目前未完成最終交付：新倉庫建立被 GitHub 整合權限拒絕，網站未部署；真實 iPhone 微信「儲存到相片」尚未實機驗收。** 下列模擬測試唔代表真實 iPhone／微信已驗收。
+**目前未完成最終交付：公開新倉庫已建好並推送 main，但啟用 Pages 嘅 API 被 GitHub 整合權限拒絕，網站未部署；真實 iPhone 微信「儲存到相片」尚未實機驗收。** 下列模擬測試唔代表真實 iPhone／微信已驗收。
 
 ## 已完成嘅必要修改
 
@@ -49,17 +49,18 @@
 ## GitHub Pages 狀態及最少外部操作
 
 - 已確認目前 GitHub 身份：`justinhe740-byte`。
-- GraphQL `createRepository` 同 REST `POST /user/repos` 均被拒絕：`Resource not accessible by integration`（REST HTTP 403）。
-- `hello-future` 倉庫讀取回傳 404；預期 Pages URL 回傳 HTTPS 404，**冇宣稱上線**。
-- 已準備 `publish-github-pages.sh`；shell 語法檢查通過，實際發布執行喺建立倉庫階段被拒絕，未推送／未啟用 Pages。
-- 腳本會拒絕改動既有私人倉庫或其他網站；如果之前已推送同一份 HTML，可繼續 Pages 設定。正式驗證會保留 TLS 檢查並比對線上 HTML。
+- 帳戶持有人已建立公開倉庫 `justinhe740-byte/HELLO-FUTURE`；已確認目前連接可讀取同推送。
+- 完整網站、`.nojekyll`、說明、測試同發布腳本已推送到 `main`。
+- 倉庫實際名稱係大寫 `HELLO-FUTURE`，因此 Pages 路徑亦使用相同大小寫。
+- 建立新倉庫權限唔再係前提；目前未完成嘅步驟係啟用 Pages：REST `POST /repos/justinhe740-byte/HELLO-FUTURE/pages` 返回 HTTP 403 `Resource not accessible by integration`。
+- 倉庫角色回報 `admin: true` 唔代表目前 GitHub 應用獲授所有管理 API；已觀察到程式碼推送成功，而 Pages 開通被拒絕。
+- `.default_branch` 已係 `main`，發布腳本唔再要求額外修改倉庫 metadata。
+- 腳本可以喺使用者手動啟用 Pages 之後繼續驗證。正式驗證保留 TLS 檢查並比對線上 HTML。
 
-帳戶持有人需要喺 https://github.com/new 建立 **public `hello-future` 空倉庫**。唔好加入 README、.gitignore 或授權檔。如果目前 GitHub 連接只可讀取選定倉庫，將新倉庫加入同一授權範圍，再通知助手繼續。發布需要 Contents 寫入同 Pages 管理權限；唔需要喺聊天提供 token。
+最少操作：帳戶持有人開啟 https://github.com/justinhe740-byte/HELLO-FUTURE/settings/pages ，Source 選 **Deploy from a branch**，Branch 選 **main**，Folder 選 **/ (root)**，撳 **Save**。唔需要新增建立倉庫權限，亦唔需要喺聊天提供 token。
 
-以下只係目標，**並非已建立嘅交付連結**：
-
-- 倉庫：`https://github.com/justinhe740-byte/hello-future`
-- 網站：`https://justinhe740-byte.github.io/hello-future/`
+- 已建立嘅倉庫：https://github.com/justinhe740-byte/HELLO-FUTURE
+- 預期網站（**尚未啟用／未驗證，唔係已上線交付連結**）：`https://justinhe740-byte.github.io/HELLO-FUTURE/`
 
 環境網絡草稿已加入 `api.github.com`、`justinhe740-byte.github.io`、`cdn.playwright.dev`、`playwright.download.prss.microsoft.com`，保留原有預設域名。之後重試已能連線 GitHub API 同下載 WebKit。草稿保存唔等於環境版本已發布，亦唔等於網站已發布；可喺環境設定審閱、保存並發布，以保留設定。
 

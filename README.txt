@@ -113,32 +113,32 @@ PNG 使用內嵌 data URL，唔依賴 Blob URL、Canvas.toBlob 或 FileReader。
 
 GitHub Pages 免費發布
 --------------------------------------------------
-目標係 justinhe740-byte/hello-future 公開倉庫，main 分支，根目錄發布。
+目標係 justinhe740-byte/HELLO-FUTURE 公開倉庫，main 分支，根目錄發布。
 只用 GitHub 免費 Pages 同 github.io 域名；冇自訂域名、付費 API 或伺服器。
 index.html 喺根目錄，所有圖像／程式／樣式內嵌，冇 /assets 等根路徑引用。
 .nojekyll 標記略過 Jekyll 處理，冇 npm 或建置步驟。
 
-目前發布狀態：未上線。
-GitHub 已確認登入 justinhe740-byte，但建立倉庫嘅 GraphQL 同 REST 請求
-都被現有整合權限拒絕：Resource not accessible by integration。
+目前發布狀態：公開倉庫已建立，完整檔案已推送 main，GitHub Pages 尚未啟用。
+倉庫：https://github.com/justinhe740-byte/HELLO-FUTURE
+現有 GitHub 連接可以讀取同推送，但開通 Pages 嘅 API 返回 HTTP 403。
+唔需要再授予建立倉庫權限。
 
-帳戶持有人最少需要做：
-1. 喺 https://github.com/new 建立公開 hello-future。
-   唔好預先加入 README、.gitignore 或授權檔；保留為空倉庫。
-2. 將 hello-future 加入目前 GitHub 連接可存取嘅倉庫。
-   發布需要 Contents 寫入同 Pages 管理權限。
-3. 通知助手繼續，或者維護者喺已授權嘅機器執行：
-   bash publish-github-pages.sh --publish
+帳戶持有人只需要喺瀏覽器開啟：
+https://github.com/justinhe740-byte/HELLO-FUTURE/settings/pages
+喺 Build and deployment：
+1. Source 選 Deploy from a branch。
+2. Branch 選 main；Folder 選 / (root)。
+3. 撳 Save；保持 Enforce HTTPS，唔需要填 Custom domain。
 
-腳本會用獨立暫存目錄推送 main，唔會改動 codextest 嘅 origin 或可見性。
-HTTPS 驗證會比較實際下載嘅 HTML 同本地檔案，唔會關閉 TLS 驗證。
-如果選擇手動發布：將 index.html、.nojekyll 放喺新倉庫根目錄，
-再喺 Settings → Pages 選 Deploy from a branch → main → / (root)，Save。
-維持 Enforce HTTPS，唔需要填 Custom domain。
+設定後通知助手繼續，或者維護者喺已授權嘅機器執行：
+bash publish-github-pages.sh --publish
+腳本會保留已推送嘅相同網站，繼續檢查 Pages 同 HTTPS。
+如果網站內容已改變，腳本會停止，唔會覆蓋其他版本。
+正式驗證會保留 TLS 檢查並比對線上 HTML。
 
-預期地址（仲未建立／未部署，唔係可用交付連結）：
-倉庫：https://github.com/justinhe740-byte/hello-future
-網站：https://justinhe740-byte.github.io/hello-future/
+預期網站（尚未部署／未驗證，唔係有效交付連結）：
+https://justinhe740-byte.github.io/HELLO-FUTURE/
+注意網址路徑大小寫同實際倉庫名稱一致。
 
 開發驗證說明
 --------------------------------------------------

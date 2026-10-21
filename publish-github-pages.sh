@@ -61,7 +61,9 @@ git -C "$publish_stage/site" -c user.name="$publish_owner" -c user.email="$publi
 git -C "$publish_stage/site" remote add origin "https://github.com/$publish_repo.git"
 git -C "$publish_stage/site" push --set-upstream origin main
 fi
-gh api --method PATCH "repos/$publish_repo" -f default_branch=main --silent
+if [[ "$(gh api "repos/$publish_repo" --jq .default_branch)" != main ]]; then
+  gh api --method PATCH "repos/$publish_repo" -f default_branch=main --silent
+fi
 
 if ! gh api "repos/$publish_repo/pages" >"$publish_stage/pages.json" 2>"$publish_stage/pages-error.txt"; then
   if [[ "$(<"$publish_stage/pages-error.txt")" != *"(HTTP 404)"* ]]; then
@@ -91,7 +93,9 @@ import pathlib, sys
 sys.exit(0 if pathlib.Path(sys.argv[1]).read_bytes() == pathlib.Path(sys.argv[2]).read_bytes() else 1)
 PY
     then
-      gh api --method PATCH "repos/$publish_repo/pages" -F https_enforced=true --silent
+      if [[ "$(gh api "repos/$publish_repo/pages" --jq .https_enforced)" != true ]]; then
+        gh api --method PATCH "repos/$publish_repo/pages" -F https_enforced=true --silent
+      fi
       echo "Repository: https://github.com/$publish_repo"
       echo "Verified HTTPS website: $publish_url"
       echo 'Real iPhone Safari / WeChat long-press-to-Photos acceptance remains a device check.'
